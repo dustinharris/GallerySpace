@@ -12,7 +12,7 @@ public class FrameManager {
     {
         Debug.Log("Made it to load frames");
         
-        framesObjects = GameObject.FindGameObjectsWithTag("Frame");
+        framesObjects = GameObject.FindGameObjectsWithTag("Picture");
        
         Debug.Log("Frame count: " + framesObjects.Length.ToString());
 
@@ -21,11 +21,11 @@ public class FrameManager {
 
         if (framesObjects.Length > 5)
         {
-            GameObject.Find("Removable Wall 1").SetActive(false);
+            //GameObject.Find("Removable Wall 1").SetActive(false);
         }
         if (framesObjects.Length > 10)
         {
-            GameObject.Find("Removable Wall 2").SetActive(false);
+            //GameObject.Find("Removable Wall 2").SetActive(false);
         }
 
         // Initialize framesSet & orderedFramesObjects
@@ -33,7 +33,7 @@ public class FrameManager {
         {
             Debug.Log("lengthhhh");
             framesSet[i] = false;
-            string frameString = "Picture" + (i + 1).ToString() + " Frame";
+            string frameString = "Picture" + (i + 1).ToString();
             Debug.Log(frameString);
             orderedFramesObjects[i] = GameObject.Find(frameString);
         }
@@ -43,10 +43,17 @@ public class FrameManager {
     {
         int storeImageLocation = -1;
         int onImageLocation = 0;
+        Debug.Log("Frames length: " + framesObjects.Length);
 
         // Find first empty spot in frames array, put image there
-        while (storeImageLocation == -1) {
-            if (framesSet[onImageLocation] == false)
+        while (storeImageLocation == -1)
+        {
+            if (storeImageLocation >= framesObjects.Length)
+            {
+                Debug.Log("more pictures than frames");
+                storeImageLocation = 0;
+            }
+            else if (framesSet[onImageLocation] == false)
             {
                 Debug.Log("Storing image at " + onImageLocation.ToString());
                 storeImageLocation = onImageLocation;
@@ -69,10 +76,7 @@ public class FrameManager {
                     framesObjects[storeImageLocation].transform.parent.transform.localScale = new Vector3(existingdepth, wallImage.height / (float)wallImage.width * existingheight, existingwidth);
                 }
             }
-            else if (storeImageLocation > framesObjects.Length)
-            {
-                Debug.Log("more pictures than frames");
-            } else
+            else
             {
                 onImageLocation++;
             }
